@@ -15,7 +15,7 @@ GeoIP-Player is a velocity server plugin that allows querying player geographic 
 | `/geoip reload` | Reload the configuration file | `geoip.reload` |
 
 ## Installation
-1. Download the plugin jar file and place it in the `plugins` folder of your Paper server.
+1. Download the plugin jar file and place it in the `plugins` folder of your velocity server.
 2. Restart or reload the server.
 3. Ensure the GeoLite2 database is properly set up and accessible by the plugin.
 
