@@ -5,7 +5,6 @@ import com.github.stabrinai.geoipplayer.service.GeoIPService;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.DisconnectEvent;
 import com.velocitypowered.api.event.player.ServerConnectedEvent;
-import com.velocitypowered.api.event.player.ServerPreConnectEvent;
 
 import java.net.InetSocketAddress;
 import java.util.HashMap;
