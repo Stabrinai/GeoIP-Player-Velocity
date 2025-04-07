@@ -14,10 +14,9 @@ public class LookupCommand {
         final HashMap<String, HashMap<String, String>> playerData = plugin.getPlayerData();
         return BrigadierCommand.literalArgumentBuilder("lookup")
                 .requires(ctx -> ctx.hasPermission("geoip.lookup"))
-                .then(BrigadierCommand.requiredArgumentBuilder("player", StringArgumentType.word())
+                .then(BrigadierCommand.requiredArgumentBuilder("player", StringArgumentType.greedyString())
                         .suggests((ctx, sug) -> {
-                            String input = ctx.getInput().split("lookup")[1].strip();
-                            for (String name : playerData.keySet().stream().filter(name -> name.startsWith(input)).toList()) {
+                            for (String name : playerData.keySet().stream().filter(name -> name.startsWith(sug.getRemaining())).toList()) {
                                 sug.suggest(name);
                             }
                             return sug.buildFuture();

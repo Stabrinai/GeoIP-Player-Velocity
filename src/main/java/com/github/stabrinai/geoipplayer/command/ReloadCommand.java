@@ -12,7 +12,7 @@ public class ReloadCommand {
                 .requires(ctx -> ctx.hasPermission("geoip.reload"))
                 .executes(ctx -> {
                     plugin.reloadConfig();
-                    ctx.getSource().sendRichMessage(plugin.getConfigData().node("messages","reload_config").getString(""));
+                    ctx.getSource().sendRichMessage(plugin.getConfigData().node("messages", "reload_config").getString(""));
                     return Command.SINGLE_SUCCESS;
                 });
     }

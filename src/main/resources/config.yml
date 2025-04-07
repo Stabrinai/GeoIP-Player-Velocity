@@ -15,6 +15,9 @@ toggle:
   # 退出服务器时清空查询结果
   delete_on_quit: false
 
+# 大厅服务器id, 进入后再开始查询
+server: lobby
+
 # 支持使用MiniMessage格式
 messages:
   local_address: "本地"

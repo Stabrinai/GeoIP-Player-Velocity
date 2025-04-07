@@ -22,6 +22,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.slf4j.Logger;
 
 public class GeoIPService {
@@ -57,11 +58,11 @@ public class GeoIPService {
             }
             try {
                 FileTime lastModifiedTime = Files.getLastModifiedTime(DatabaseFilePath);
-                if (Duration.between(lastModifiedTime.toInstant(), Instant.now()).toDays() <= plugin.getConfigData().node("geolite2","update_interval_days").getInt(30)) {
+                if (Duration.between(lastModifiedTime.toInstant(), Instant.now()).toDays() <= plugin.getConfigData().node("geolite2", "update_interval_days").getInt(30)) {
                     startReading();
                     return;
                 } else {
-                    logger.info("GEO IP database is older than {} days", plugin.getConfigData().node("geolite2","update_interval_days").getInt(30));
+                    logger.info("GEO IP database is older than {} days", plugin.getConfigData().node("geolite2", "update_interval_days").getInt(30));
                 }
             } catch (IOException ioEx) {
                 logger.warn("Failed to load GeoLiteAPI database", ioEx);
@@ -74,7 +75,7 @@ public class GeoIPService {
     }
 
     private void updateDatabase() {
-        try (InputStream file = URI.create(plugin.getConfigData().node("geolite2","download_url").getString("")).toURL().openStream()) {
+        try (InputStream file = URI.create(plugin.getConfigData().node("geolite2", "download_url").getString("")).toURL().openStream()) {
             if (Files.exists(DatabaseFilePath)) Files.delete(DatabaseFilePath);
             Files.copy(new BufferedInputStream(file), DatabaseFilePath, StandardCopyOption.REPLACE_EXISTING);
             logger.info("Successfully downloaded new GEO IP database to {}", DatabaseFilePath);
@@ -95,15 +96,15 @@ public class GeoIPService {
     public HashMap<String, String> lookupByIp(InetSocketAddress inetSocketAddress) {
         HashMap<String, String> result = new HashMap<>();
         String ipAddress = inetSocketAddress.getAddress().getHostAddress();
-        String language = plugin.getConfigData().node("geolite2","language").getString("");
+        String language = plugin.getConfigData().node("geolite2", "language").getString("");
 
         result.put("ip", inetSocketAddress.toString());
         // 数据库初始化失败
         if (reader == null)
-            result.put("ERROR", plugin.getConfigData().node("messages","database_error").getString(""));
+            result.put("ERROR", plugin.getConfigData().node("messages", "database_error").getString(""));
         // 本机或环回地址
         if (InternetProtocolUtils.isLocalAddress(ipAddress))
-            result.put("ERROR", plugin.getConfigData().node("messages","local_address").getString(""));
+            result.put("ERROR", plugin.getConfigData().node("messages", "local_address").getString(""));
         // 本机或数据库未初始化时返回
         if (result.containsKey("ERROR"))
             return result;
@@ -111,7 +112,8 @@ public class GeoIPService {
         LookupResult data = null;
         try {
             data = reader.get(InetAddress.getByName(ipAddress), LookupResult.class);
-        } catch (IOException ignored) {}
+        } catch (IOException ignored) {
+        }
 
         if (data != null) {
             // 板块
